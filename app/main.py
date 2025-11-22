@@ -1,16 +1,26 @@
 from fastapi import FastAPI, HTTPException, Depends
 from app.sentiments import get_sentiment 
 from app.model import UserCreate, UserResponse
-# from datetime import datetime, timedelta
-# from jose import jwt, JWTError
 from app.auth import create_token, verify_token
 from app.config import SECRET_KEY, ALGORITHM
 from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 data_db = {"username":"admin",
         "password":"abcd"
 }
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=origins,
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"],
+)
+
 
 @app.post("/login")
 def login(data:UserCreate):
@@ -25,7 +35,9 @@ class PredictSchema(BaseModel):
   text: str
 
 @app.post("/predict")
-def predict(text: str):
+def predict(payload: PredictSchema, token:str = Depends(verify_token)):
+
+  text = payload.text
 
   predict =  get_sentiment(text)
   label = predict[0][0]["label"]
