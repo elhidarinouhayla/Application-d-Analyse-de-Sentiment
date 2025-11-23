@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from app.sentiments import get_sentiment 
-from app.model import UserCreate, UserResponse
+from app.shema import UserCreate, UserResponse
 from app.auth import create_token, verify_token
 from app.config import SECRET_KEY, ALGORITHM
 from pydantic import BaseModel
@@ -11,7 +11,10 @@ data_db = {"username":"admin",
 }
 app = FastAPI()
 
-origins = ["*"]
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500", 
+]
 
 app.add_middleware(
   CORSMiddleware,
@@ -25,17 +28,17 @@ app.add_middleware(
 @app.post("/login")
 def login(data:UserCreate):
   if data.username == data_db["username"] and data.password == data_db["password"]:
-       token = create_token(data)  
-       return {token}
+       token = create_token(data.username)  
+       return {"token": token}
   else:
-    raise HTTPException(status_code=401,detail= "user name ou password incorrect")
+    raise HTTPException(status_code=401,detail= "username ou password incorrect")
   
 
 class PredictSchema(BaseModel):
   text: str
 
 @app.post("/predict")
-def predict(payload: PredictSchema, token:str = Depends(verify_token)):
+def predict(payload: PredictSchema, token: dict = Depends(verify_token)):
 
   text = payload.text
 
