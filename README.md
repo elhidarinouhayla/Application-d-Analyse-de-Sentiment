@@ -3,7 +3,7 @@
 
 ## Objectif du projet 
 
-
+L’objectif de ce projet est de créer un micro-service d’analyse de sentiment sécurisé, capable de recevoir des textes, de les envoyer à l’API Hugging Face pour évaluer leur sentiment avec le modèle nlptown/bert-base-multilingual-uncased-sentiment, et de retourner une note de 1 à 5. Le service doit être fiable, fonctionnel, protégé par JWT et facilement déployable grâce à Docker.
 
 
 ## Structure du projet
@@ -153,6 +153,20 @@ pytest
 
 ## Dockerfile
 
+Le Dockerfile permet de construire une image Docker pour le backend FastAPI.
 
-## Auteur
-El Hidari Nouhayla
+Il fait les étapes suivantes :
+
+  1. Utilise Python 3.11 slim comme base
+
+  2. Définit le dossier de travail /app
+
+  3. Copie le fichier requirements.txt et installe les dépendances Python
+
+  4. Copie tout le code du backend dans l’image
+
+  5. Expose le port 8000 pour l’API
+
+  6. Lance le serveur Uvicorn à l’intérieur du conteneur
+
+=> Cela permet de déployer facilement l’API sur n’importe quelle machine sans config supplémentaire
