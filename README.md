@@ -121,13 +121,13 @@ Ce endpoit necessite:
 ### Classification des scores :
 
 Score                          Sentiment
-____________________________________________
- 1,2                             negatif
-____________________________________________
-  3                              neutre
-____________________________________________
- 4,5                             positif
-____________________________________________
+___________________________________________
+ 1,2                 |          negatif
+_____________________|_____________________
+  3                  |          neutre
+_____________________|_____________________
+ 4,5                 |          positif
+_____________________|____________________
 
 
 ## Tests Unitaires
@@ -155,6 +155,7 @@ pytest
 
 Le Dockerfile permet de construire une image Docker pour le backend FastAPI.
 
+<<<<<<< HEAD
 Il fait les étapes suivantes :
 
   1. Utilise Python 3.11 slim comme base
@@ -170,3 +171,5 @@ Il fait les étapes suivantes :
   6. Lance le serveur Uvicorn à l’intérieur du conteneur
 
 => Cela permet de déployer facilement l’API sur n’importe quelle machine sans config supplémentaire
+=======
+>>>>>>> f8d3e509d81e34a3f9dbd790a9a8eec00759b1f5
